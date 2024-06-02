@@ -61,7 +61,7 @@
                                     <a class='read-more pull-right' href='addtocart.php?post_id=<?php echo($row['post_id']) ?>'>Add to Cart</a>
                                     <a class='read-more pull-right'                                        
                                     href='single.php?post_id=<?php echo ($row['post_id']) ?>'>read more</a>
-                                    <a class='read-more pull-right' href='#'>₹29,999</a>
+                                    <a class='read-more pull-right'>Rs/-<?php echo $row['price']; ?></a>
                                 </div>
                             </div>
                         </div>

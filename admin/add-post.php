@@ -1,10 +1,7 @@
-<?php include("header.php");
-include("config.php");
+<?php include ("header.php");
+include ("config.php");
 if (isset($_POST['submit'])) {
-
     session_start();
-
-
     if (isset($_FILES['fileToUpload'])) {
         $file_name = $_FILES['fileToUpload']["name"];
         $file_tmp = $_FILES['fileToUpload']["tmp_name"];
@@ -13,14 +10,13 @@ if (isset($_POST['submit'])) {
         $file_ext = strtolower(end(explode('.', $file_name)));
         $allow_extension = array("jpg", "jpeg", "png");
         $file_error = array();
-
         if (in_array($file_ext, $allow_extension) === false) {
             $file_error[] = "This extension file not allowed, Please choose a JPG or PNG file.";
         }
         if ($file_size > 2097152) {
             $file_error[] = "Image must be 2mb or lower.";
         }
-        $save_img_name =  date("d_M_Y_h_i_sa")."_". basename($file_name);
+        $save_img_name = date("d_M_Y_h_i_sa") . "_" . basename($file_name);
         $img_save_target = "upload/";
         if (empty($file_error) == true) {
             move_uploaded_file($file_tmp, $img_save_target . $save_img_name);
@@ -28,30 +24,22 @@ if (isset($_POST['submit'])) {
             print_r($file_error);
             die();
         }
-
     }
-
-
     $post_title = mysqli_real_escape_string($conn, $_POST['post_title']);
     $price = mysqli_real_escape_string($conn, $_POST['price']);
     $post_decs = mysqli_real_escape_string($conn, $_POST['postdesc']);
     $post_cate = mysqli_real_escape_string($conn, $_POST['category']);
     $post_date = date("d M, Y");
     $post_author = $_SESSION['user_id'];
-
-
     $sql_insert_post = "INSERT INTO post (title,price, description,category,post_date,author,post_img)
                         VALUES ('{$post_title}','{$price}','{$post_decs}','{$post_cate}','{$post_date}','{$post_author}','{$save_img_name}');";
     $sql_insert_post .= "UPDATE category SET post = post + 1 WHERE category_id = '{$post_cate}'";
-
     if (mysqli_multi_query($conn, $sql_insert_post)) {
         header("Location:{$hostname}/admin/post.php");
     } else {
         echo "<div class='alert alert-danger'>Post Not Submit</div>";
     }
-
 }
-
 ?>
 <div id="admin-content">
     <div class="container">
@@ -78,23 +66,19 @@ if (isset($_POST['submit'])) {
                         <label for="exampleInputPassword1">Category</label>
                         <select name="category" class="form-control">
                             <option disabled selected> Select Category</option>
-
                             <?php
-                            include("config.php");
+                            include ("config.php");
                             $sql_category_list = "SELECT * from category" or die("Query Die!! --> sql_category_list");
                             $result_sql_category_list = mysqli_query($conn, $sql_category_list);
-
                             if (mysqli_num_rows($result_sql_category_list) > 0) {
                                 while ($row = mysqli_fetch_assoc($result_sql_category_list)) {
-                            ?>
-                            <option value="<?php echo ($row['category_id']) ?>"><?php echo ($row['category_name']) ?>
-                            </option>
-
-                            <?php
+                                    ?>
+                                    <option value="<?php echo ($row['category_id']) ?>"><?php echo ($row['category_name']) ?>
+                                    </option>
+                                    <?php
                                 }
                             }
                             ?>
-
                         </select>
                     </div>
                     <div class="form-group">

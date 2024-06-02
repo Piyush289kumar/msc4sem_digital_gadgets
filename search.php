@@ -5,17 +5,14 @@
             <div class="col-md-8">
                 <!-- post-container -->
                 <div class="post-container">
-
                     <?php
-                  if (isset($_GET['search'])) {
-                      $search_term = mysqli_real_escape_string($conn,$_GET['search']);
-                  }
-
-
-                  ?>
+                    if (isset($_GET['search'])) {
+                        $search_term = mysqli_real_escape_string($conn, $_GET['search']);
+                    }
+                    ?>
                     <h2 class="page-heading"><b><?php echo "Search : {$search_term}" ?></b></h2>
                     <?php
-                    include("config.php");
+                    include ("config.php");
                     if (isset($_GET['page_index'])) {
                         $page_index_by_addbar = $_GET['page_index'];
                     } else {
@@ -31,51 +28,53 @@
                     $result_sql_show_post_record = mysqli_query($conn, $sql_show_post_record) or die("No Record Found!!");
                     if (mysqli_num_rows($result_sql_show_post_record) > 0) {
                         while ($row = mysqli_fetch_assoc($result_sql_show_post_record)) {
-                    ?>
-                    <div class="post-content">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <a class="post-img" href="single.php?post_id=<?php echo ($row['post_id']) ?>"><img
-                                        src="admin/upload/<?php echo $row['post_img']; ?>" alt="Picture unlink" /></a>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="inner-content clearfix">
-                                    <h3><a href='single.php?post_id=<?php echo ($row['post_id']) ?>'><?php echo $row['title']; ?></a></h3>
-                                    <div class="post-information">
-                                        <span>
-                                            <i class="fa fa-tags" aria-hidden="true"></i>
-                                            <a href="category.php?cate_id=<?php echo ($row['category']) ?>"><?php echo $row['category_name']; ?></a>
-                                        </span>
-                                        <span>
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                            <a href='author.php?aid=<?php echo $row['author']; ?>'><?php echo $row['username']; ?></a>
-                                        </span>
-                                        <span>
-                                            <i class="fa fa-calendar" aria-hidden="true"></i>
-                                            <?php echo $row['post_date']; ?>
-                                        </span>
+                            ?>
+                            <div class="post-content">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <a class="post-img" href="single.php?post_id=<?php echo ($row['post_id']) ?>"><img
+                                                src="admin/upload/<?php echo $row['post_img']; ?>" alt="Picture unlink" /></a>
                                     </div>
-                                    <p class="description">
-                                        <?php echo substr($row['description'], 0, 180) . '....'; ?>
-                                    </p>
-                                    
-                                    <a class='read-more pull-right' href='addtocart.php?post_id=<?php echo($row['post_id']) ?>'>Add to Cart</a>
-                                    <a class='read-more pull-right'
-                                        href='single.php?post_id=<?php echo ($row['post_id']) ?>'>read more</a>
-                                        <a class='read-more pull-right' href='#'>₹29,999</a>
+                                    <div class="col-md-8">
+                                        <div class="inner-content clearfix">
+                                            <h3><a
+                                                    href='single.php?post_id=<?php echo ($row['post_id']) ?>'><?php echo $row['title']; ?></a>
+                                            </h3>
+                                            <div class="post-information">
+                                                <span>
+                                                    <i class="fa fa-tags" aria-hidden="true"></i>
+                                                    <a
+                                                        href="category.php?cate_id=<?php echo ($row['category']) ?>"><?php echo $row['category_name']; ?></a>
+                                                </span>
+                                                <span>
+                                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                                    <a
+                                                        href='author.php?aid=<?php echo $row['author']; ?>'><?php echo $row['username']; ?></a>
+                                                </span>
+                                                <span>
+                                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                    <?php echo $row['post_date']; ?>
+                                                </span>
+                                            </div>
+                                            <p class="description">
+                                                <?php echo substr($row['description'], 0, 180) . '....'; ?>
+                                            </p>
+                                            <a class='read-more pull-right'
+                                                href='addtocart.php?post_id=<?php echo ($row['post_id']) ?>'>Add to Cart</a>
+                                            <a class='read-more pull-right'
+                                                href='single.php?post_id=<?php echo ($row['post_id']) ?>'>read more</a>
+                                            <a class='read-more pull-right' href='#'>Rs/-<?php echo $row['price']; ?></a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <?php
+                            <?php
                         }
                     } else {
                         echo ("<div class='alert alert-danger'>No Result!!</div>");
                     }
                     $sql_total_post_record = "SELECT * from post WHERE post.title LIKE '%{$search_term}%'";
                     $result_sql_total_post_record = mysqli_query($conn, $sql_total_post_record) or die("Query Failed !! --> sql_total_post_record");
-                    
-
                     if (mysqli_num_rows($result_sql_total_post_record) > 0) {
                         $total_post_record = mysqli_num_rows($result_sql_total_post_record);
                         $total_page = ceil($total_post_record / $record_limi);
@@ -84,7 +83,6 @@
                             echo ("<li><a href='$hostname/search.php?search={$search_term}&page_index=" . ($page_index_by_addbar - 1) . "'>Prev</a></li>");
                         }
                         for ($i = 1; $i <= $total_page; $i++) {
-
                             if ($page_index_by_addbar == $i) {
                                 $active_page = "active";
                             } else {

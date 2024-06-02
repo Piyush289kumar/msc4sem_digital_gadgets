@@ -8,12 +8,13 @@ $result_sql_show_post_data = mysqli_query($conn, $sql_show_post_data) or die("Qu
 $pro_img="";
 $pro_name="";
 $pro_qty = 1;
-$pro_price = 989;
+$pro_price = 0;
 if (mysqli_num_rows($result_sql_show_post_data) > 0) {
     while ($row = mysqli_fetch_assoc($result_sql_show_post_data)) {
         
         $pro_img= $row['post_img'];
         $pro_name=$row['title'];
+        $pro_price=$row['price'];
     }
 }
 
